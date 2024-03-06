@@ -104,6 +104,27 @@ exports.validateStudentId = async (res, studentId) => {
   }
 };
 
+exports.validateUsername = async (res, username) => {
+  try {
+    const user = await User.findOne({ username });
+
+    if (user) {
+      return res.json({
+        success: false,
+        message: "이미 사용중인 닉네임입니다",
+      });
+    }
+
+    return res.json({ success: true, message: "ok" });
+  } catch (error) {
+    console.log(error);
+    return res.json({
+      success: false,
+      message: "Server Error",
+    });
+  }
+};
+
 // exports.checkUsername = async (res, value) => {
 //   const user = await User.findOne({ username: value });
 

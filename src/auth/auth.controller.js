@@ -3,6 +3,7 @@ const {
   logIn,
   checkingStudentId,
   validateStudentId,
+  validateUsername
 } = require("../auth/auth.service");
 
 exports.signUp = async (req, res) => {
@@ -24,6 +25,11 @@ exports.validateStudentId = async (req, res) => {
   const { studentId } = await req.params;
   return await validateStudentId(res, studentId);
 };
+
+exports.validateUsername= async (req, res) => {
+  const { username } = await req.params;
+  return await validateUsername(res, username);
+}
 
 //   exports.logOut = async (req, res) => {
 //     res.clearCookie("token");
