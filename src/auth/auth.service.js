@@ -37,39 +37,16 @@ exports.logIn = async (res, body) => {
 
     const user = await User.findOne({ studentId });
 
-    if (!user) {
-      return res.json({
-        success: false,
-        message: "아이디 또는 비밀번호가 일치하지 않습니다",
-      });
-    }
+    console.log({ user });
 
-    const comparePassword = bcrypt.compare(password, user.password);
+    const comparePassword = await bcrypt.compare(password, user.password);
 
     if (!comparePassword) {
       return res.json({
         success: false,
-        message: "아이디 또는 비밀번호가 일치하지 않습니다",
+        message: "비밀번호가 일치하지 않습니다",
       });
     }
-
-    console.log({ user });
-
-    // const payload = {
-    //   id: user.id,
-    // };
-
-    // const token = jwt.sign(payload, process.env.JWT_SECRET, {
-    //   expiresIn: "2h",
-    // });
-
-    // console.log(token);
-
-    // res.cookie("token", token, {
-    //   httpOnly: true,
-    //   secure: true,
-    //   sameSite: "none",
-    // });
 
     return res.json({
       success: true,
@@ -85,30 +62,44 @@ exports.logIn = async (res, body) => {
   }
 };
 
-exports.validateStudentId = async (res, studentId) => {
+exports.checkingStudentId = async (res, studentId) => {
   try {
-    if (!studentId) {
+    const user = await User.findOne({ studentId });
+
+    if (!user) {
       return res.json({
         success: false,
-        message: "⚠  학번이 존재하지 않습니다",
+        message: "등록되지 않은 학생입니다",
       });
     }
 
+    return res.json({ success: true, message: "ok", user });
+  } catch (error) {
+    console.log(error);
+    return res.json({
+      success: false,
+      message: "Server Error",
+    });
+  }
+};
+
+exports.validateStudentId = async (res, studentId) => {
+  try {
     const studentIdExisting = await User.findOne({ studentId });
 
     if (studentIdExisting) {
       return res.json({
         success: false,
-        message: "⚠  사용중인 학번입니다",
+        message: "이미 사용중인 학번입니다",
       });
     }
 
-    return res.json({ success: true, message: "사용 가능한 학번입니다" });
+    return res.json({ success: true, message: "ok" });
   } catch (error) {
     console.log(error);
     return res.json({
       success: false,
-      message: "⚠  Server Error",
+      message: "Server Error",
     });
   }
 };
