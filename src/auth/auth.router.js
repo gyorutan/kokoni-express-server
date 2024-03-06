@@ -4,7 +4,7 @@ const {
   logIn,
   checkingStudentId,
   validateStudentId,
-  validateUsername
+  validateUsername,
   //   checkUsername,
   //   checkStudentId,
 } = require("../auth/auth.controller");
@@ -12,8 +12,8 @@ const {
 router.post("/signup", signUp);
 router.post("/login", logIn);
 router.get("/check/:studentId", checkingStudentId);
-router.get("/validate/:studentId", validateStudentId);
-router.get("/validate/:username", validateUsername);
+router.get("/validate/studentId/:studentId", validateStudentId);
+router.get("/validate/username/:username", validateUsername);
 
 // router.get("/logout", logOut);
 // router.get("/username/:value", checkUsername);
