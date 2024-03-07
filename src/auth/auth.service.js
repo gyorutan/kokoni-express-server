@@ -53,13 +53,9 @@ exports.logIn = async (res, body) => {
       id: user.id,
     };
 
-    const token = jwt.sign(
-      payload,
-      { secretOrPrivateKey: process.env.JWT_SECRET },
-      {
-        expiresIn: "1h",
-      }
-    );
+    const token = jwt.sign(payload, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
 
     return res.json({
       success: true,
