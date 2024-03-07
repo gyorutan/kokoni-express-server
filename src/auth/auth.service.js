@@ -1,5 +1,6 @@
 const bcrypt = require("bcrypt");
 const User = require("../models/User");
+const jwt = require("jsonwebtoken");
 
 exports.signUp = async (res, body) => {
   try {
@@ -48,10 +49,19 @@ exports.logIn = async (res, body) => {
       });
     }
 
+    const payload = {
+      id: user.id,
+    };
+
+    const token = jwt.sign(payload, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
+
     return res.json({
       success: true,
       message: "로그인되었습니다",
       user,
+      token,
     });
   } catch (error) {
     console.log(error);
