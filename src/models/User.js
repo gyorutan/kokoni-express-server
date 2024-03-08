@@ -4,11 +4,6 @@ const userSchema = mongoose.Schema(
   {
     username: {
       type: String,
-      required: true,
-    },
-    studentId: {
-      type: String,
-      required: true,
     },
     email: {
       type: String,
@@ -16,7 +11,6 @@ const userSchema = mongoose.Schema(
     },
     password: {
       type: String,
-      required: true,
     },
     imageUrl: {
       type: String,
